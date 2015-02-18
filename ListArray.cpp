@@ -9,50 +9,57 @@
 
 template < typename DataType >
 List<DataType>::List (int maxNumber ){
-	maxSize=maxNumber;
-	size=0;
-	cursor=-1;
-	dataItems=new DataType[maxSize];
+	maxSize = maxNumber;
+	size = 0;
+	cursor = -1;
+	dataItems = new DataType[maxSize];
 }
 
 template < typename DataType >
 List<DataType>::List ( const List& source ){
-	maxSize=source.maxSize;
-	size=source.size;
-	cursor=source.cursor;
-	dataItems=source.dataItems;
+	maxSize = source.maxSize;
+	size = source.size;
+	cursor = source.cursor;
+	dataItems = new DataType[maxSize];
+	for(int i = 0 ; i < size; i++){
+		dataItems[i] = source.dataItems[i];
+	}
 }
 
 template < typename DataType >
-List& List<DataType>::operator= ( const List& source ){
-	maxSize=source.maxSize;
-	size=source.size;
-	cursor=source.cursor;
-	dataItems=source.dataItems;
+List<DataType>& List<DataType>::operator= ( const List& source ){
+	maxSize = source.maxSize;
+	size = source.size;
+	cursor = source.cursor;
+	delete [] dataItems;
+	dataItems = new DataType[maxSize];
+	dataItems = source.dataItems;
 	return *this;
 }
 
 
 template < typename DataType >
-virtual List<DataType>::~List (){
+List<DataType>::~List (){
 	delete dataItems;
-	delete maxSize;
-	delete size;
-	delete cursor;
+	//delete maxSize;
+	//delete size;
+	//delete cursor;
 }
 
 template < typename DataType >
-virtual void List<DataType>::insert ( const DataType& newDataItem ) throw ( logic_error ){
-	if(cursor+1!=size){
-		if(size==0){
-			dataItems[0]=newDataItem;
-			size++;
-			cursor=0;
+void List<DataType>::insert ( const DataType& newDataItem ) throw ( logic_error ){
+	if(size != maxSize){
+		if(size == 0){
+			dataItems[0] = newDataItem;
+			cursor = 0;
 		}else{
-			dataItems[cursor+1]=newDataItem;
-			size++;
+			for(int i = size+1; i > cursor; i--){
+				dataItems[i] = dataItems[i-1];
+			}
+			dataItems[cursor + 1] = newDataItem;
 			cursor++;
 		}
+		size++;
 	}else
 		throw logic_error("Too much data");
 }
@@ -60,23 +67,143 @@ virtual void List<DataType>::insert ( const DataType& newDataItem ) throw ( logi
 
 template < typename DataType >
 void List<DataType>::remove () throw ( logic_error ){
-	dataItems[cursor]=dataItems[size];
-	bool end=size==cursor;
-	if(size!=0){
-		cursor++;
+	for(int i = cursor ; i < size - 1; i++){
+		dataItems[i] = dataItems[i+1];
 	}
-	if(end){
-		cursor=0;
-	}
-
+	//bool end = size == cursor;
+//	if(size != 0){
+//		cursor++;
+//	}
+//	if(end){
+//		cursor=0;
+//	}
 	size--;
+	if(cursor>=size)
+		cursor=0;
+	//else
+		//cursor++;
+
 }
 
 template < typename DataType >
-virtual void List<DataType>::replace ( const DataType& newDataItem ) throw ( logic_error ){
-	if(cursor>0&&cursor<size)
-	dataItems[cursor]=newDataItem;
+void List<DataType>::replace ( const DataType& newDataItem ) throw ( logic_error ){
+	if(cursor >= 0 && cursor < size)
+		dataItems[cursor] = newDataItem;
 	else
-		throw logic_error("cannot replace")
+		throw logic_error("cannot replace");
 }
 
+template < typename DataType >
+void List<DataType>::clear(){
+	size = 0;
+	cursor = -1;
+	delete[] dataItems;
+	dataItems = new DataType[maxSize];
+}
+
+template < typename DataType >
+bool List<DataType>::isEmpty() const{
+	return size == 0;
+}
+
+template < typename DataType >
+bool List<DataType>::isFull() const{
+	return size == maxSize;
+}
+
+template < typename DataType >
+void List<DataType>::gotoBeginning () throw ( logic_error ){
+	if(size == 0)
+		throw logic_error("no items");
+	else
+		cursor = 0;
+}
+
+template < typename DataType >
+void List<DataType>::gotoEnd () throw ( logic_error ){
+	if(size == 0)
+		throw logic_error("no items");
+	else
+		cursor = size - 1;
+}
+
+template < typename DataType >
+bool List<DataType>::gotoNext () throw ( logic_error ){
+	if(size == 0)
+		throw logic_error("no items");
+	else
+		if(cursor != size - 1){
+			cursor++;
+			return true;
+		}else
+			return false;
+}
+
+template < typename DataType >
+bool List<DataType>::gotoPrior () throw ( logic_error ){
+	if(size == 0)
+		throw logic_error("no items");
+	else
+		if(cursor != 0){
+			cursor--;
+			return true;
+		}else
+			return false;
+}
+
+template < typename DataType >
+DataType List<DataType>::getCursor () const throw ( logic_error ){
+	if(size == 0)
+		throw logic_error("no items");
+	else
+		return dataItems[cursor];
+}
+template < typename DataType >
+void List<DataType>:: showStructure () const
+
+// outputs the data items in a list. if the list is empty, outputs
+// "empty list". this operation is intended for testing/debugging
+// purposes only.
+
+{
+	int j;   // loop counter
+
+	if ( size == 0 )
+		cout << "empty list" << endl;
+	// The Ordered List code blows up below. Since this is just debugging
+	// code, we check for whether the OrderedList is defined, and if so,
+	// print out the key value. If not, we try printing out the entire item.
+	// Note: This assumes that you have used the double-inclusion protection
+	// in your OrderedList.cpp file by doing a "#ifndef ORDEREDLIST_CPP", etc.
+	// If not, you will need to comment out the code in the section under
+	// the "else", otherwise the compiler will go crazy in lab 4.
+	// The alternative is to overload operator<< for all data types used in
+	// the ordered list.
+	else
+	{
+		cout << "size = " << size
+				<<  "   cursor = " << cursor << endl;
+		for ( j = 0 ; j < maxSize ; j++ )
+			cout << j << "\t";
+		cout << endl;
+		for ( j = 0 ; j < size ; j++ ) {
+			if( j == cursor ) {
+				cout << "[";
+				cout << dataItems[j]
+#ifdef ORDEREDLIST_CPP
+								  .getKey()
+#endif
+								  ;
+				cout << "]";
+				cout << "\t";
+			}
+			else
+				cout << dataItems[j]
+#ifdef ORDEREDLIST_CPP
+								  .getKey()
+#endif
+								  << "\t";
+		}
+		cout << endl;
+	}
+}
