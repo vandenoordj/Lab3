@@ -42,11 +42,11 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
-					<fileInfo id="cdt.managedbuild.config.gnu.mingw.exe.debug.151116678.1139072819" name="test3dna.cpp" rcbsApplicability="disable" resourcePath="test3dna.cpp" toolsToInvoke="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.exe.debug.902867330.422516226">
-						<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.exe.debug.902867330.422516226" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.exe.debug.902867330"/>
+					<fileInfo id="cdt.managedbuild.config.gnu.mingw.exe.debug.151116678.1226774593" name="test3dna.cpp" rcbsApplicability="disable" resourcePath="test3dna.cpp" toolsToInvoke="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.exe.debug.902867330.1124060625">
+						<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.exe.debug.902867330.1124060625" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.exe.debug.902867330"/>
 					</fileInfo>
 					<sourceEntries>
-						<entry excluding="test3.cpp|sumintegers.cpp|show3.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="test3dna.cpp|sumintegers.cpp|show3.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

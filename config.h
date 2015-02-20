@@ -11,9 +11,9 @@
  * is activated by TEST2
  */
 
-#define LAB3_TEST1	0		// 0 => test with char, 1 => test with int
-#define LAB3_TEST2	0		// Prog exercise 2: moveToNth
-#define LAB3_TEST3	0		// Prog exercise 3: find
+#define LAB3_TEST1	1		// 0 => test with char, 1 => test with int
+#define LAB3_TEST2	1		// Prog exercise 2: moveToNth
+#define LAB3_TEST3	1		// Prog exercise 3: find
 
 /**
  * Ordered list class tests.

@@ -180,12 +180,12 @@ int main()
                break;
 
           case '!' :
-		showTwoLists(copyList, testList);
+		//showTwoLists(copyList, testList);
 		break;
           case '#' :
 		assignList.insert('x');
 		assignList = testList;
-		showTwoLists(assignList, testList);
+		//showTwoLists(assignList, testList);
 		break;
 
 #if	LAB3_TEST2

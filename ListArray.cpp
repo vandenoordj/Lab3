@@ -21,9 +21,8 @@ List<DataType>::List ( const List& source ){
 	size = source.size;
 	cursor = source.cursor;
 	dataItems = new DataType[maxSize];
-	for(int i = 0 ; i < size; i++){
+	for(int i = 0 ; i < size; i++)
 		dataItems[i] = source.dataItems[i];
-	}
 }
 
 template < typename DataType >
@@ -41,9 +40,6 @@ List<DataType>& List<DataType>::operator= ( const List& source ){
 template < typename DataType >
 List<DataType>::~List (){
 	delete dataItems;
-	//delete maxSize;
-	//delete size;
-	//delete cursor;
 }
 
 template < typename DataType >
@@ -53,9 +49,8 @@ void List<DataType>::insert ( const DataType& newDataItem ) throw ( logic_error 
 			dataItems[0] = newDataItem;
 			cursor = 0;
 		}else{
-			for(int i = size+1; i > cursor; i--){
+			for(int i = size+1; i > cursor; i--)
 				dataItems[i] = dataItems[i-1];
-			}
 			dataItems[cursor + 1] = newDataItem;
 			cursor++;
 		}
@@ -67,21 +62,15 @@ void List<DataType>::insert ( const DataType& newDataItem ) throw ( logic_error 
 
 template < typename DataType >
 void List<DataType>::remove () throw ( logic_error ){
-	for(int i = cursor ; i < size - 1; i++){
+	if(size == 0)
+		throw logic_error("no items");
+
+	for(int i = cursor ; i < size - 1; i++)
 		dataItems[i] = dataItems[i+1];
-	}
-	//bool end = size == cursor;
-//	if(size != 0){
-//		cursor++;
-//	}
-//	if(end){
-//		cursor=0;
-//	}
+
 	size--;
-	if(cursor>=size)
-		cursor=0;
-	//else
-		//cursor++;
+	if(cursor >= size)
+		cursor = 0;
 
 }
 
@@ -206,4 +195,30 @@ void List<DataType>:: showStructure () const
 		}
 		cout << endl;
 	}
+}
+
+
+template < typename DataType >
+void List<DataType>::moveToNth ( int n ) throw ( logic_error ){
+	if(size < n + 1){
+		throw logic_error("not enough items");
+	}
+	DataType rep = dataItems[cursor];
+	this->remove();
+	cursor = n - 1;
+	this->insert(rep);
+}
+
+template < typename DataType >
+bool List<DataType>::find ( const DataType& searchDataItem ) throw ( logic_error ){
+	if(size == 0)
+		throw logic_error("no items");
+	for(int i = cursor; i < size; i++){
+		if(dataItems[i]==searchDataItem)
+			return true;
+
+		if(cursor+1<size)
+			cursor++;
+	}
+	return false;
 }
