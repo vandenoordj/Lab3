@@ -32,7 +32,8 @@ List<DataType>& List<DataType>::operator= ( const List& source ){
 	cursor = source.cursor;
 	delete [] dataItems;
 	dataItems = new DataType[maxSize];
-	dataItems = source.dataItems;
+	for(int i = 0 ; i < size; i++)
+		dataItems[i] = source.dataItems[i];
 	return *this;
 }
 
